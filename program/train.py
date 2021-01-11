@@ -69,4 +69,3 @@ export_path = MODEL_DIR
 model.save(export_path + 'weights.h5')
 tf.keras.backend.set_learning_phase(0)  # Ignore dropout at inference
 tf.saved_model.save(model,export_path + str(1))
-print("Model saved, version = ", version)
