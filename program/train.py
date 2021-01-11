@@ -66,20 +66,7 @@ model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=0, val
         callbacks=[loggingCallback(), tf.keras.callbacks.TensorBoard(log_dir=MODEL_DIR)])
         
 export_path = MODEL_DIR
-version = 0
-if not tf.io.gfile.exists(export_path):
-    tf.io.gfile.makedirs(export_path)
-model_contents = tf.io.gfile.listdir(export_path)
-
-saved_models = []
-for mdir in model_contents:
-    if mdir != 'logs' and mdir != 'metrics'and mdir != 'weights.h5':
-        saved_models.append(int(mdir))
-if len(saved_models) < 1:
-    version = 1
-else:
-    version = max(saved_models) + 1
 model.save(export_path + 'weights.h5')
 tf.keras.backend.set_learning_phase(0)  # Ignore dropout at inference
-tf.saved_model.save(model,export_path + str(version))
+tf.saved_model.save(model,export_path + str(1))
 print("Model saved, version = ", version)
